@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jaxb:bindings version="2.0"
+			 xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+			 jaxb:extensionBindingPrefixes="xjc">
+	<jaxb:bindings schemaLocation="customer.xsd">
+		<jaxb:schemaBindings>
+			<jaxb:package name="com.cgi.service.customer.dto"/>
+			<jaxb:nameXmlTransform>
+				<jaxb:elementName suffix="DTO"/>
+			</jaxb:nameXmlTransform>
+		</jaxb:schemaBindings>
+	</jaxb:bindings>
+</jaxb:bindings>

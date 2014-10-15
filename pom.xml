@@ -1,0 +1,17 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.cgi.poc</groupId>
+    <artifactId>customer-service-spec</artifactId>
+    <packaging>pom</packaging>
+    <version>0.0.2-SNAPSHOT</version>
+    <name>customer service specifications project</name>
+    <properties>
+        <service.name>customer</service.name>
+        <org.apache.cxf.version>2.7.3</org.apache.cxf.version>
+        <com.sun.xml.bind.version>2.2.7</com.sun.xml.bind.version>
+    </properties>
+    <modules>
+        <module>customer-service-spec-server-jaxws</module>
+    </modules>
+</project>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+				  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl"
+				  xmlns:customer="http://service.cgi.com/customer" 
+				  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+				  name="CustomerService" 
+				  targetNamespace="http://service.cgi.com/customer">
+	<wsdl:types>
+		<xs:schema>
+			<xs:import namespace="http://service.cgi.com/customer" schemaLocation="customer.xsd"/>
+		</xs:schema>
+    </wsdl:types>
+  <wsdl:message name="void"/>
+  <wsdl:message name="getCustomerByNissRequest">
+  	<wsdl:part name="parameters" element="customer:getCustomerByNissRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCustomerByNissResponse">
+  	<wsdl:part name="parameters" element="customer:getCustomerByNissResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="registerCustomerRequest">
+  	<wsdl:part name="parameters" element="customer:registerCustomerRequest"></wsdl:part>
+
+  </wsdl:message>
+  <wsdl:message name="registerCustomerResponse">
+  	<wsdl:part name="parameters" element="customer:registerCustomerResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="duplicateNissFault">
+  	<wsdl:part name="DuplicateNissFault" element="customer:DuplicateNissError"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="customerTooYoungFault">
+  	<wsdl:part name="CustomerTooYoungFault"	element="customer:CustomerTooYoungError">
+  </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CustomerService">
+  	<wsdl:operation name="getCustomerByNiss">
+  		<wsdl:input message="customer:getCustomerByNissRequest"></wsdl:input>
+  		<wsdl:output message="customer:getCustomerByNissResponse"></wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="registerCustomer">
+  		<wsdl:input message="customer:registerCustomerRequest"></wsdl:input>
+  		<wsdl:output message="customer:void"></wsdl:output>
+        <wsdl:fault name="duplicateNissFault" message="customer:duplicateNissFault"></wsdl:fault>
+            <wsdl:fault name="customerTooYoungFault" message="customer:customerTooYoungFault"></wsdl:fault>
+        </wsdl:operation>
+  </wsdl:portType>
+  
+  <wsdl:binding name="NewBinding" type="customer:CustomerService">
+
+  	<soap:binding style="document"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<wsdl:operation name="getCustomerByNiss">
+
+  		<soap:operation
+  			soapAction="http://service.cgi.com/customer/getCustomerByNiss" />
+  		<wsdl:input>
+
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  	<wsdl:operation name="registerCustomer">
+
+  		<soap:operation
+  			soapAction="http://service.cgi.com/customer/registerCustomer" />
+  		<wsdl:input>
+
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  		<wsdl:fault name="duplicateNissFault">
+
+  			<soap:fault use="literal" name="duplicateNissFault" />
+  		</wsdl:fault>
+  		<wsdl:fault name="customerTooYoungFault">
+
+  			<soap:fault use="literal" name="customerTooYoungFault" />
+  		</wsdl:fault>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CustomerService">
+  	<wsdl:port name="CustomerServicePort" binding="customer:NewBinding">
+  		<soap:address location="http://service.cgi.com/customer" />
+  	</wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
