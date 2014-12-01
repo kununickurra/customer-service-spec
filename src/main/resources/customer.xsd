@@ -7,54 +7,48 @@
 
     <xs:complexType name="AddressType">
     	<xs:sequence>
-    		<xs:element name="country" type="xs:string"></xs:element>
-            <xs:element name="postCode" type="xs:string"></xs:element>
-            <xs:element name="street" type="xs:string"></xs:element>
-    		<xs:element name="number" type="xs:string"></xs:element>
-    		<xs:element name="box" type="xs:string"></xs:element>
+    		<xs:element name="country" type="xs:string"/>
+            <xs:element name="postCode" type="xs:string"/>
+            <xs:element name="street" type="xs:string"/>
+    		<xs:element name="number" type="xs:string"/>
+    		<xs:element name="box" type="xs:string"/>
     	</xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="CustomerType">
     	<xs:sequence>
-     		<xs:element name="id" type="xs:int"></xs:element>
-    		<xs:element name="lastName" type="xs:string"></xs:element>
-    		<xs:element name="firstName" type="xs:string"></xs:element>
-<!--     		<xs:element name="address" type="customer:AddressType"></xs:element> -->
-    		<xs:element name="birthDate" type="xs:date"></xs:element>
-            <xs:element name="niss" type="xs:string"></xs:element>
+     		<xs:element name="id" type="xs:int"/>
+    		<xs:element name="lastName" type="xs:string"/>
+    		<xs:element name="firstName" type="xs:string"/>
+    		<xs:element name="birthDate" type="xs:date"/>
+            <xs:element name="nationalNumber" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 
-    <xs:element name="getCustomerByNissRequest">
+    <xs:element name="getCustomerByNationalNumberRequest">
     	<xs:complexType>
     		<xs:sequence>
-    			<xs:element name="niss" type="xs:string"></xs:element>
+    			<xs:element name="nationalNumber" type="xs:string"/>
     		</xs:sequence>
     	</xs:complexType>
     </xs:element>
 
-
-
-    <xs:element name="getCustomerByNissResponse">
+    <xs:element name="getCustomerByNationalNumberResponse">
     	<xs:complexType>
     		<xs:sequence>
-    			<xs:element name="customer" type="customer:CustomerType"></xs:element>
+    			<xs:element name="customer" type="customer:CustomerType"/>
     		</xs:sequence>
     	</xs:complexType>
     </xs:element>
 
+    <xs:element name="NationalNumberAlreadyRegisteredError" type="customer:BusinessExceptionType"/>
 
-    <xs:element name="DuplicateNissError" type="customer:BusinessExceptionType">
-    </xs:element>
-
-    <xs:element name="CustomerTooYoungError" type="customer:BusinessExceptionType">
-    </xs:element>
+    <xs:element name="CustomerNotAllowedError" type="customer:BusinessExceptionType"/>
 
     <xs:complexType name="BusinessExceptionType">
     	<xs:sequence>
-    		<xs:element name="code" type="xs:string"></xs:element>
-    		<xs:element name="message" type="xs:string"></xs:element>
+    		<xs:element name="code" type="xs:string"/>
+    		<xs:element name="message" type="xs:string"/>
     	</xs:sequence>
     </xs:complexType>
 
@@ -62,8 +56,7 @@
     <xs:element name="registerCustomerRequest">
     	<xs:complexType>
     		<xs:sequence>
-    			<xs:element name="customer" type="customer:CustomerType">
-    			</xs:element>
+    			<xs:element name="customer" type="customer:CustomerType"/>
     		</xs:sequence>
     	</xs:complexType>
     </xs:element>
@@ -71,14 +64,13 @@
     <xs:element name="SystemFault">
     	<xs:complexType>
     		<xs:sequence>
-    			<xs:element name="error" type="customer:SystemFaultType">
-    			</xs:element>
+    			<xs:element name="error" type="customer:SystemFaultType"/>
     		</xs:sequence>
     	</xs:complexType>
     </xs:element>
 
     <xs:simpleType name="SystemFaultType">
-    	<xs:restriction base="xs:string"></xs:restriction>
+    	<xs:restriction base="xs:string"/>
     </xs:simpleType>
 
 </xs:schema>

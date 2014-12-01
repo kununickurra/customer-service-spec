@@ -1,93 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:customer="http://service.cgi.com/customer"
-	xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
-	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
-	xmlns:wsp="http://www.w3.org/ns/ws-policy" name="CustomerService"
-	targetNamespace="http://service.cgi.com/customer">
-	
-	<wsdl:types>
-		<xs:schema>
-			<xs:import namespace="http://service.cgi.com/customer" schemaLocation="customer.xsd"/>
-		</xs:schema>
+                  xmlns:customer="http://service.cgi.com/customer"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  name="CustomerService"
+                  targetNamespace="http://service.cgi.com/customer">
+
+    <wsdl:types>
+        <xs:schema>
+            <xs:import namespace="http://service.cgi.com/customer" schemaLocation="customer.xsd"/>
+        </xs:schema>
     </wsdl:types>
-  <wsdl:message name="void"/>
-  <wsdl:message name="getCustomerByNissRequest">
-  	<wsdl:part name="parameters" element="customer:getCustomerByNissRequest"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="getCustomerByNissResponse">
-  	<wsdl:part name="parameters" element="customer:getCustomerByNissResponse"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="registerCustomerRequest">
-  	<wsdl:part name="parameters" element="customer:registerCustomerRequest"></wsdl:part>
 
-  </wsdl:message>
-  <wsdl:message name="registerCustomerResponse">
-  	<wsdl:part name="parameters" element="customer:registerCustomerResponse"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="duplicateNissFault">
-  	<wsdl:part name="DuplicateNissFault" element="customer:DuplicateNissError"></wsdl:part>
-  </wsdl:message>
-  <wsdl:message name="customerTooYoungFault">
-  	<wsdl:part name="CustomerTooYoungFault"	element="customer:CustomerTooYoungError">
-  </wsdl:part>
-  </wsdl:message>
-  <wsdl:portType name="CustomerService">
-  	<wsdl:operation name="getCustomerByNiss">
-  		<wsdl:input message="customer:getCustomerByNissRequest"></wsdl:input>
-  		<wsdl:output message="customer:getCustomerByNissResponse"></wsdl:output>
-  	</wsdl:operation>
-  	<wsdl:operation name="registerCustomer">
-  		<wsdl:input message="customer:registerCustomerRequest"></wsdl:input>
-  		<wsdl:output message="customer:void"></wsdl:output>
-        <wsdl:fault name="duplicateNissFault" message="customer:duplicateNissFault"></wsdl:fault>
-            <wsdl:fault name="customerTooYoungFault" message="customer:customerTooYoungFault"></wsdl:fault>
+    <wsdl:message name="void"/>
+
+    <wsdl:message name="getCustomerByNationalNumberRequest">
+        <wsdl:part name="parameters" element="customer:getCustomerByNationalNumberRequest"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="getCustomerByNationalNumberResponse">
+        <wsdl:part name="parameters" element="customer:getCustomerByNationalNumberResponse"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="registerCustomerRequest">
+        <wsdl:part name="parameters" element="customer:registerCustomerRequest"></wsdl:part>
+
+    </wsdl:message>
+    <wsdl:message name="registerCustomerResponse">
+        <wsdl:part name="parameters" element="customer:registerCustomerResponse"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="nationalNumberAlreadyRegisteredFault">
+        <wsdl:part name="NationalNumberAlreadyRegisteredFault"
+                   element="customer:NationalNumberAlreadyRegisteredError"></wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="customerNotAllowedFault">
+        <wsdl:part name="CustomerNotAllowedFault" element="customer:CustomerNotAllowedError">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="CustomerService">
+        <wsdl:operation name="getCustomerByNationalNumber">
+            <wsdl:input message="customer:getCustomerByNationalNumberRequest"></wsdl:input>
+            <wsdl:output message="customer:getCustomerByNationalNumberResponse"></wsdl:output>
         </wsdl:operation>
-  </wsdl:portType>
-  
-  <wsdl:binding name="NewBinding" type="customer:CustomerService">
+        <wsdl:operation name="registerCustomer">
+            <wsdl:input message="customer:registerCustomerRequest"></wsdl:input>
+            <wsdl:output message="customer:void"></wsdl:output>
+            <wsdl:fault name="nationalNumberAlreadyRegisteredFault"
+                        message="customer:nationalNumberAlreadyRegisteredFault"></wsdl:fault>
+            <wsdl:fault name="customerNotAllowedFault" message="customer:customerNotAllowedFault"></wsdl:fault>
+        </wsdl:operation>
+    </wsdl:portType>
 
-  	<soap:binding style="document"
-  		transport="http://schemas.xmlsoap.org/soap/http" />
-  	<wsdl:operation name="getCustomerByNiss">
+    <wsdl:binding name="CustomerServiceBindings"
+                  type="customer:CustomerService">
 
-  		<soap:operation
-  			soapAction="http://service.cgi.com/customer/getCustomerByNiss" />
-  		<wsdl:input>
+        <soap:binding style="document"
+                      transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="getCustomerByNationalNumber">
+            <soap:operation
+                    soapAction="http://service.cgi.com/customer/getCustomerByNationalNumber"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="registerCustomer">
 
-  			<soap:body use="literal" />
-  		</wsdl:input>
-  		<wsdl:output>
+            <soap:operation
+                    soapAction="http://service.cgi.com/customer/registerCustomer"/>
+            <wsdl:input>
 
-  			<soap:body use="literal" />
-  		</wsdl:output>
-  	</wsdl:operation>
-  	<wsdl:operation name="registerCustomer">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
 
-  		<soap:operation
-  			soapAction="http://service.cgi.com/customer/registerCustomer" />
-  		<wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="nationalNumberAlreadyRegisteredFault">
 
-  			<soap:body use="literal" />
-  		</wsdl:input>
-  		<wsdl:output>
+                <soap:fault use="literal"
+                            name="nationalNumberAlreadyRegisteredFault"/>
+            </wsdl:fault>
+            <wsdl:fault name="customerNotAllowedFault">
 
-  			<soap:body use="literal" />
-  		</wsdl:output>
-  		<wsdl:fault name="duplicateNissFault">
-
-  			<soap:fault use="literal" name="duplicateNissFault" />
-  		</wsdl:fault>
-  		<wsdl:fault name="customerTooYoungFault">
-
-  			<soap:fault use="literal" name="customerTooYoungFault" />
-  		</wsdl:fault>
-  	</wsdl:operation>
-  </wsdl:binding>
-  <wsdl:service name="CustomerService">
-  	<wsdl:port name="CustomerServicePort" binding="customer:NewBinding">
-  		<soap:address location="http://service.cgi.com/customer" />
-  	</wsdl:port>
-  </wsdl:service>
+                <soap:fault use="literal"
+                            name="customerNotAllowedFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="CustomerService">
+        <wsdl:port name="CustomerServicePort" binding="customer:CustomerServiceBindings">
+            <soap:address location="http://service.cgi.com/customer"/>
+        </wsdl:port>
+    </wsdl:service>
 </wsdl:definitions>

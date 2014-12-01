@@ -1,17 +1,98 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.cgi.poc</groupId>
+    <groupId>com.cgi.poc.service</groupId>
     <artifactId>customer-service-spec</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <version>1.0.2-SNAPSHOT</version>
     <name>customer service specifications project</name>
     <properties>
         <service.name>customer</service.name>
         <org.apache.cxf.version>2.7.3</org.apache.cxf.version>
-        <com.sun.xml.bind.version>2.2.7</com.sun.xml.bind.version>
+        <org.jvnet.jaxb2-basics-annotate.version>0.6.0</org.jvnet.jaxb2-basics-annotate.version>
+        <packagename>com.cgi.poc.service.${service.name}</packagename>
+        <dtoPackage>com.cgi.poc.service.${service.name}.dto</dtoPackage>
+        <wsdl>${project.build.directory}/resources/${service.name}.wsdl</wsdl>
     </properties>
-    <modules>
-        <module>customer-service-spec-server-jaxws</module>
-    </modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jvnet.jaxb2_commons</groupId>
+                <artifactId>jaxb2-basics-annotate</artifactId>
+                <version>${org.jvnet.jaxb2-basics-annotate.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <version>${org.apache.cxf.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/resources</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/src/main/resources</directory>
+                                    <includes>
+                                        <include>**/*.wsdl</include>
+                                        <include>**/*.xsd</include>
+                                        <include>**/*.xjb</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-codegen-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-sources</id>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <sourceRoot>${project.build.directory}/generated-sources</sourceRoot>
+                            <wsdlOptions>
+                                <wsdlOption>
+                                    <wsdl>${wsdl}</wsdl>
+                                    <bindingFiles>
+                                        <bindingFile>
+                                            ${project.build.directory}/resources/${service.name}.xjb
+                                        </bindingFile>
+                                    </bindingFiles>
+                                </wsdlOption>
+                            </wsdlOptions>
+                        </configuration>
+                        <goals>
+                            <goal>wsdl2java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-basics-annotate</artifactId>
+                        <version>${org.jvnet.jaxb2-basics-annotate.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
 </project>
